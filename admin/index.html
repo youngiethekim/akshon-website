@@ -11,5 +11,16 @@
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <!-- Decap CMS (formerly Netlify CMS) -->
 <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+<script>
+  // Add a "Generate from YouTube" link to the CMS sidebar.
+  if (window.CMS && CMS.registerAdditionalLink) {
+    CMS.registerAdditionalLink({
+      id: "generate-from-youtube",
+      title: "Generate from YouTube",
+      data: "/admin/generate.html",
+      options: { iconName: "page" },
+    });
+  }
+</script>
 </body>
 </html>
