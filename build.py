@@ -12,13 +12,25 @@ SITE_URL = "https://akshonmedia.com"
 # ---------- helpers ----------
 def read(p): return open(os.path.join(ROOT, p), encoding="utf8").read()
 
+try:
+    import yaml  # PyYAML — parses structured frontmatter (e.g. the FAQ list)
+except Exception:
+    yaml = None
+
 def parse_md(path):
     raw = open(path, encoding="utf8").read()
     m = re.match(r"^---\n(.*?)\n---\n?(.*)$", raw, re.S)
-    fm, body = ({}, raw)
-    if m:
-        body = m.group(2).strip()
-        for line in m.group(1).splitlines():
+    if not m:
+        return {}, raw
+    front, body = m.group(1), m.group(2).strip()
+    fm = {}
+    if yaml is not None:
+        try:
+            fm = yaml.safe_load(front) or {}
+        except Exception:
+            fm = {}
+    if not fm:  # fallback: flat key:value parser (no structured fields)
+        for line in front.splitlines():
             if ":" in line:
                 k, v = line.split(":", 1)
                 fm[k.strip()] = v.strip().strip('"')
@@ -58,11 +70,12 @@ def load_videos():
         vids.append({
             "slug": slug,
             "title": fm.get("title", slug),
-            "date": fm.get("date", ""),
-            "youtube_id": fm.get("youtube_id", ""),
+            "date": str(fm.get("date", "") or ""),
+            "youtube_id": str(fm.get("youtube_id", "") or ""),
             "category": fm.get("category", "originals"),
             "thumbnail": fm.get("thumbnail") or f"https://i.ytimg.com/vi/{fm.get('youtube_id','')}/hqdefault.jpg",
             "description": fm.get("description", ""),
+            "faq": [q for q in (fm.get("faq") or []) if isinstance(q, dict) and q.get("question") and q.get("answer")],
             "body": body,
             "url": f"/video/{slug}/",
         })
@@ -268,6 +281,19 @@ def build_video_posts(videos):
                           "logo": {"@type": "ImageObject", "url": SITE_URL + "/assets/img/logo-white.png"}}
         }, ensure_ascii=False)
         extra = f'<script type="application/ld+json">{ld}</script>'
+        # FAQ section + FAQPage schema (question-targeting for Google)
+        faq_html = ""
+        if v["faq"]:
+            items = "".join(
+                f'<details><summary>{esc(q["question"])}</summary><div>{esc(q["answer"])}</div></details>'
+                for q in v["faq"])
+            faq_html = f'<section class="faq"><h2>Frequently asked questions</h2><div class="faqlist">{items}</div></section>'
+            faq_ld = json.dumps({
+                "@context": "https://schema.org", "@type": "FAQPage",
+                "mainEntity": [{"@type": "Question", "name": q["question"],
+                                "acceptedAnswer": {"@type": "Answer", "text": q["answer"]}} for q in v["faq"]],
+            }, ensure_ascii=False)
+            extra += f'<script type="application/ld+json">{faq_ld}</script>'
         html_out = head(f"{v['title']} — Akshon Media", desc, v["url"], og_image=v["thumbnail"], extra=extra)
         pn = '<div class="postnav">'
         if next_v: pn += f'<a href="{next_v["url"]}">&larr; Newer</a>'
@@ -281,6 +307,7 @@ def build_video_posts(videos):
   <div class="embed"><iframe src="https://www.youtube-nocookie.com/embed/{yt}" title="{esc(v['title'])}" loading="lazy" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen></iframe></div>
   <div class="watch-yt"><span class="s">Watch and subscribe on YouTube to support the channel.</span><a href="https://www.youtube.com/watch?v={yt}" rel="noopener" target="_blank">Watch on YouTube &rarr;</a></div>
   <div class="body">{body_html}</div>
+  {faq_html}
   {pn}
 </article>
 """

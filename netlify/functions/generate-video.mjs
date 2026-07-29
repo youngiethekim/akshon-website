@@ -129,6 +129,7 @@ const RUBRIC =
   "- TITLE TAG 20–60 chars. META DESCRIPTION 140–160 chars, includes the keyword + a hook implying 'watch the video'. SLUG short, hyphenated, keyword-based.\n" +
   "- BODY 300–550 words of original, people-first prose (never a transcript dump), with 3–5 '##' subheadings. If competitor/PAA info is provided, cover the important subtopics and answer the People-Also-Ask questions so the post is MORE complete than what currently ranks — without keyword-stuffing.\n" +
   "- Pick 4–6 secondary keywords actually used in the copy. End by pointing readers to watch the full video.\n" +
+  "- FAQ: include 4–6 frequently-asked questions with concise, genuinely useful answers (40–80 words each). PRIORITIZE the 'People Also Ask' questions if provided (those are what Google surfaces); otherwise infer the real questions a viewer would search. Weave relevant keywords in naturally.\n" +
   "Return only the requested JSON.";
 
 const EDITOR_SCHEMA = {
@@ -138,8 +139,9 @@ const EDITOR_SCHEMA = {
     category: { type: "string", enum: ["originals", "press"] }, body_markdown: { type: "string" },
     primary_keyword: { type: "string" }, secondary_keywords: { type: "array", items: { type: "string" } },
     tags: { type: "array", items: { type: "string" } }, seo_notes: { type: "string" },
+    faq: { type: "array", items: { type: "object", additionalProperties: false, properties: { question: { type: "string" }, answer: { type: "string" } }, required: ["question", "answer"] } },
   },
-  required: ["title", "slug", "meta_description", "category", "body_markdown", "primary_keyword", "secondary_keywords", "tags", "seo_notes"],
+  required: ["title", "slug", "meta_description", "category", "body_markdown", "primary_keyword", "secondary_keywords", "tags", "seo_notes", "faq"],
 };
 
 function serpText(serp) {
@@ -216,7 +218,9 @@ function buildMarkdown({ ai, id, date, seoScore }) {
   return ["---", `title: "${esc(ai.title)}"`, `date: ${date}`, `youtube_id: "${id}"`, `category: ${ai.category || "originals"}`,
     `thumbnail: "https://i.ytimg.com/vi/${id}/hqdefault.jpg"`, `description: "${esc(ai.meta_description)}"`,
     `primary_keyword: "${esc(ai.primary_keyword || "")}"`, `secondary_keywords: ${list(ai.secondary_keywords)}`,
-    `tags: ${list(ai.tags)}`, `seo_score: ${seoScore}`, `seo_notes: "${esc(ai.seo_notes || "")}"`, "draft: true", "---", "", ai.body_markdown.trim(), ""].join("\n");
+    `tags: ${list(ai.tags)}`, `seo_score: ${seoScore}`, `seo_notes: "${esc(ai.seo_notes || "")}"`,
+    `faq: ${JSON.stringify((ai.faq || []).filter((q) => q && q.question && q.answer))}`,
+    "draft: true", "---", "", ai.body_markdown.trim(), ""].join("\n");
 }
 
 export const handler = async (event, context) => {
@@ -273,7 +277,7 @@ export const handler = async (event, context) => {
     return json(200, {
       ok: true, slug, title: ai.title, primary_keyword: ai.primary_keyword,
       secondary_keywords: ai.secondary_keywords, seo_notes: ai.seo_notes,
-      seo_score: scored.score, checks: scored.checks, revised,
+      seo_score: scored.score, checks: scored.checks, revised, faq_count: (ai.faq || []).length,
       grounded, keyword_stats: targetStats ? { volume: targetStats.volume, difficulty: targetStats.difficulty }
         : (grounded && keywordRows.length ? (() => { const c = keywordRows.find((r) => r.keyword.toLowerCase() === String(ai.primary_keyword).toLowerCase()); return c ? { volume: c.volume, difficulty: c.difficulty } : null; })() : null),
       competitors_analyzed: serp ? serp.count : 0,

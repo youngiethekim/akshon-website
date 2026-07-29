@@ -35,6 +35,14 @@ collections:
       - { label: "Secondary keywords", name: "secondary_keywords", widget: "list", required: false }
       - { label: "SEO notes", name: "seo_notes", widget: "text", required: false, hint: "Why this keyword was chosen (from the generator)." }
       - { label: "Tags", name: "tags", widget: "list", required: false }
+      - label: "FAQ (shows on the page + adds FAQ rich-result schema for Google)"
+        name: "faq"
+        widget: "list"
+        required: false
+        summary: "{{fields.question}}"
+        fields:
+          - { label: "Question", name: "question", widget: "string" }
+          - { label: "Answer", name: "answer", widget: "text" }
       - { label: "Article body", name: "body", widget: "markdown", hint: "A few paragraphs of original text — this is what helps the page rank in Google search." }
 
   - name: settings
