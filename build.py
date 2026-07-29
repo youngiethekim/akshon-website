@@ -135,6 +135,8 @@ def footer():
 <div class="ft-bar"><span>&copy; 2026 Akshon Media Inc. All rights reserved.</span>
 <span>801&ndash;838 W Hastings St, Vancouver, BC</span></div>
 </div></footer>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>if(window.netlifyIdentity){window.netlifyIdentity.on("init",function(u){if(!u){window.netlifyIdentity.on("login",function(){document.location.href="/admin/";});}});}</script>
 </body></html>"""
 
 def vcard(v):

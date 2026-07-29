@@ -1,10 +1,10 @@
 backend:
-  name: github
-  repo: youngiethekim/akshon-website
+  name: git-gateway
   branch: main
 
-# Editors log in with GitHub. Publishing commits markdown to the repo and
-# Netlify rebuilds the site automatically.
+# Editors log in with an email + password (via Netlify Identity) — no GitHub
+# account needed. Publishing commits markdown to the repo and Netlify rebuilds
+# the site automatically. See MIGRATION.md → "Turn on the CMS login".
 
 media_folder: "assets/img/uploads"
 public_folder: "/assets/img/uploads"
