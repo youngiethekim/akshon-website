@@ -1,0 +1,51 @@
+backend:
+  name: github
+  repo: youngiethekim/akshon-website
+  branch: main
+
+# Editors log in with GitHub. Publishing commits markdown to the repo and
+# Netlify rebuilds the site automatically.
+
+media_folder: "assets/img/uploads"
+public_folder: "/assets/img/uploads"
+site_url: https://akshonmedia.com
+display_url: https://akshonmedia.com
+
+collections:
+  - name: videos
+    label: "Videos"
+    label_singular: "Video"
+    folder: "content/videos"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}}  —  {{date}}"
+    sortable_fields: [date, title]
+    preview_path: "video/{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string", hint: "Match the YouTube title for best SEO." }
+      - { label: "Publish date", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "YouTube video ID", name: "youtube_id", widget: "string", hint: "The 11-character ID after watch?v= (e.g. dQw4w9WgXcQ)." }
+      - { label: "Category", name: "category", widget: "select", options: ["originals", "press"], default: "originals" }
+      - { label: "Thumbnail URL", name: "thumbnail", widget: "string", required: false, hint: "Leave blank to auto-use the YouTube thumbnail." }
+      - { label: "Article body", name: "body", widget: "markdown", hint: "A few paragraphs of original text — this is what helps the page rank in Google search." }
+
+  - name: settings
+    label: "Site settings"
+    files:
+      - name: site
+        label: "Homepage & stats"
+        file: "data/site.json"
+        fields:
+          - label: "Homepage stats"
+            name: "stats_home"
+            widget: "list"
+            fields:
+              - { label: "Number", name: "n", widget: "string" }
+              - { label: "Label", name: "l", widget: "string" }
+          - label: "Work-with-us stats"
+            name: "stats_work"
+            widget: "list"
+            fields:
+              - { label: "Number", name: "n", widget: "string" }
+              - { label: "Label", name: "l", widget: "string" }

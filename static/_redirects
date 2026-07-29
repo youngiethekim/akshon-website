@@ -1,0 +1,34 @@
+# Akshon Media — 301 redirects from old WordPress URLs to new equivalents.
+# NOTE: all 149 /video/<slug>/ URLs are UNCHANGED, so they need no redirect —
+# their SEO value and inbound links carry over automatically.
+
+# --- Case-study pages (folded into Work With Us) ---
+/overwatch-league-akshon-media/     /work-with-us/   301
+/evil-geniuses-akshon-media/        /work-with-us/   301
+/call-of-duty-league-akshon-media/  /work-with-us/   301
+/red-bull-kumite-akshon-media/      /work-with-us/   301
+/toronto-defiant-akshon-media/      /work-with-us/   301
+/overwolf-akshon-media/             /work-with-us/   301
+/battle-of-bc-akshon-media/         /work-with-us/   301
+/la-riviere-akshon-media/           /work-with-us/   301
+/ark-and-mason-akshon-media/        /work-with-us/   301
+/akshon-portfolio/                  /work-with-us/   301
+/draft-new-study-case-template/     /work-with-us/   301
+
+# --- Press ---
+/akshon-evilgeniuses-press-release-2024/   /press/   301
+
+# --- Newsletter / survey / duplicate homepages ---
+/new-homepage/          /   301
+/akshon-newsletter/     /   301
+/newsletter-form-2/     /   301
+/akshon-survey/         /   301
+/contact2/              /contact/   301
+
+# --- Category archives ---
+/category/originals-category/   /videos/   301
+/category/press-category/       /press/    301
+/category/uncategorized/        /videos/   301
+
+# --- Content page to rebuild later (temporary target) ---
+/esports-industry-report/   /about/   301

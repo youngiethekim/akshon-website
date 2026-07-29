@@ -1,0 +1,38 @@
+{
+  "stats_home": [
+    {"n":"1M+","l":"Subscribers"},
+    {"n":"250M+","l":"Total views"},
+    {"n":"149","l":"Videos"},
+    {"n":"30+","l":"Brand partners"}
+  ],
+  "stats_work": [
+    {"n":"1M+","l":"Subscribers"},
+    {"n":"250M+","l":"Total views"},
+    {"n":"18–34","l":"Core audience"},
+    {"n":"50+","l":"Games covered"}
+  ],
+  "brands": [
+    {"name":"Blizzard","img":"/assets/img/cl-blizzard.png"},
+    {"name":"Overwatch League","img":"/assets/img/cl-overwatch.png","inv":true},
+    {"name":"Call of Duty League","img":"/assets/img/cl-cod.png"},
+    {"name":"Red Bull","img":"/assets/img/cl-redbull.png"},
+    {"name":"Evil Geniuses","img":"/assets/img/cl-eg.png"},
+    {"name":"T1","img":"/assets/img/cl-t1.png"},
+    {"name":"Toronto Defiant","img":"/assets/img/cl-defiant.png"},
+    {"name":"Vancouver Titans","img":"/assets/img/cl-titans.png"},
+    {"name":"Philadelphia Fusion","img":"/assets/img/cl-fusion.png"},
+    {"name":"Overwolf","img":"/assets/img/cl-overwolf.png","inv":true},
+    {"name":"Daily Hive","img":"/assets/img/cl-dailyhive.png"},
+    {"name":"BuzzFeed","img":"/assets/img/cl-buzzfeed.png"}
+  ],
+  "offers": [
+    {"k":"01","h":"Sponsored integrations","p":"In-video sponsor segments and permanent on-site credit on every video's blog post."},
+    {"k":"02","h":"Branded content","p":"Documentaries, brand films, and series produced end-to-end for your audience."},
+    {"k":"03","h":"Production services","p":"League coverage, event content, and post-production at official-partner scale."}
+  ],
+  "selected_work": [
+    {"h":"Overwatch League — Activision Blizzard","p":"Official content production partner since 2019. Watchpoint shows, show openers, trailers, video series, and league-wide digital asset management.","img":"https://i.ytimg.com/vi/2aAmMyToLkg/hqdefault.jpg"},
+    {"h":"Evil Geniuses — Official Media Partner","p":"Trailers, jersey-launch promos, VCT team content, and the Comms Check series — produced closely with EG staff and players.","img":"https://i.ytimg.com/vi/A5fpZ6r1MGA/hqdefault.jpg"},
+    {"h":"Red Bull Kumite","p":"A content package built to drive excitement for Red Bull Kumite — from evergreen fighting-game history pieces to on-location Times Square social content.","img":"/assets/img/rb-kumite.png"}
+  ]
+}
