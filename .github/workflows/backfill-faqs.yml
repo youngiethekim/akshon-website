@@ -1,0 +1,47 @@
+name: Backfill FAQs
+
+# One-click backfill of FAQs onto existing video posts that don't have one.
+# Run it from the GitHub "Actions" tab → "Backfill FAQs" → "Run workflow".
+#
+# First-time setup (GitHub → Settings → Secrets and variables → Actions → New repository secret):
+#   ANTHROPIC_API_KEY   (required)
+#   DATAFORSEO_LOGIN, DATAFORSEO_PASSWORD  (optional — enables real People-Also-Ask questions)
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "How many posts to process (blank = all remaining). Try 3 first to preview."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Generate FAQs
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DATAFORSEO_LOGIN: ${{ secrets.DATAFORSEO_LOGIN }}
+          DATAFORSEO_PASSWORD: ${{ secrets.DATAFORSEO_PASSWORD }}
+          LIMIT: ${{ github.event.inputs.limit }}
+        run: node scripts/backfill-faqs.mjs
+      - name: Commit updated posts
+        run: |
+          git config user.name "Akshon FAQ bot"
+          git config user.email "actions@github.com"
+          if [ -n "$(git status --porcelain content/videos)" ]; then
+            git add content/videos
+            git commit -m "Backfill FAQs on existing video posts"
+            git push
+            echo "Committed FAQ updates."
+          else
+            echo "No changes to commit (all posts already had FAQs)."
+          fi
