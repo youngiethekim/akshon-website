@@ -266,6 +266,24 @@ function buildMarkdown({ ai, id, date }) {
 }
 
 export const handler = async (event, context) => {
+  // Safe diagnostic: reports only whether env vars are set + length/format —
+  // never their values. GET /.netlify/functions/generate-video?diag=1
+  if (event.httpMethod === "GET" && (event.queryStringParameters || {}).diag === "1") {
+    const chk = (name) => {
+      const v = process.env[name];
+      return { set: !!v, length: v ? v.length : 0, hasWhitespaceOrQuotes: v ? (v.trim().length !== v.length || /["']/.test(v)) : false };
+    };
+    const a = process.env.ANTHROPIC_API_KEY || "";
+    return json(200, {
+      ANTHROPIC_API_KEY: { ...chk("ANTHROPIC_API_KEY"), startsWith_sk_ant: a.startsWith("sk-ant-") },
+      TRANSCRIPT_API_KEY: chk("TRANSCRIPT_API_KEY"),
+      GITHUB_TOKEN: chk("GITHUB_TOKEN"),
+      GITHUB_REPO: { set: !!process.env.GITHUB_REPO, value: process.env.GITHUB_REPO || null },
+      dataforseo: { set: !!(process.env.DATAFORSEO_LOGIN && process.env.DATAFORSEO_PASSWORD) },
+      model: MODEL,
+    });
+  }
+
   if (event.httpMethod !== "POST") return json(405, { error: "Method not allowed" });
   const user = context.clientContext && context.clientContext.user;
   if (!user) return json(401, { error: "Please log in to use this tool." });
