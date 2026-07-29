@@ -49,10 +49,24 @@ function slugify(s) {
     .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80);
 }
 
-async function fetchOEmbed(id) {
-  const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`);
-  if (!r.ok) throw new Error("Could not read this video from YouTube (is it public?).");
-  return r.json();
+async function fetchMeta(id) {
+  // Primary: oEmbed (clean title). Some videos disable embedding → 401; fall
+  // back to the watch page's og:title, then to an empty title (Claude will
+  // still write one from the transcript).
+  try {
+    const r = await fetch(`https://www.youtube.com/oembed?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D${id}&format=json`);
+    if (r.ok) return await r.json();
+  } catch {}
+  try {
+    const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36";
+    const r = await fetch(`https://www.youtube.com/watch?v=${id}`, { headers: { "user-agent": UA } });
+    if (r.ok) {
+      const html = await r.text();
+      const m = html.match(/<meta property="og:title" content="([^"]*)"/);
+      if (m) return { title: m[1].replace(/&amp;/g, "&").replace(/&#39;/g, "'").replace(/&quot;/g, '"') };
+    }
+  } catch {}
+  return { title: "" };
 }
 
 async function fetchTranscript(id) {
@@ -264,7 +278,7 @@ export const handler = async (event, context) => {
   if (!id) return json(400, { error: "That doesn't look like a YouTube link." });
 
   try {
-    const meta = await fetchOEmbed(id);
+    const meta = await fetchMeta(id);
     const transcript = payload.script && payload.script.trim().length > 40
       ? payload.script.trim()
       : await fetchTranscript(id);
