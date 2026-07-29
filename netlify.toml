@@ -1,9 +1,13 @@
 [build]
   command = "python3 build.py"
   publish = "dist"
+  functions = "netlify/functions"
 
 [build.environment]
   PYTHON_VERSION = "3.9"
+
+[functions]
+  node_bundler = "esbuild"
 
 [[headers]]
   for = "/assets/*"

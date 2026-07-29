@@ -28,6 +28,9 @@ collections:
       - { label: "YouTube video ID", name: "youtube_id", widget: "string", hint: "The 11-character ID after watch?v= (e.g. dQw4w9WgXcQ)." }
       - { label: "Category", name: "category", widget: "select", options: ["originals", "press"], default: "originals" }
       - { label: "Thumbnail URL", name: "thumbnail", widget: "string", required: false, hint: "Leave blank to auto-use the YouTube thumbnail." }
+      - { label: "Draft (hidden from the live site until unchecked)", name: "draft", widget: "boolean", default: false, required: false }
+      - { label: "SEO description", name: "description", widget: "string", required: false, hint: "~155-character search-result snippet." }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
       - { label: "Article body", name: "body", widget: "markdown", hint: "A few paragraphs of original text — this is what helps the page rank in Google search." }
 
   - name: settings

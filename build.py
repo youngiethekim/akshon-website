@@ -52,6 +52,8 @@ def load_videos():
     for fn in os.listdir(vdir):
         if not fn.endswith(".md"): continue
         fm, body = parse_md(os.path.join(vdir, fn))
+        if str(fm.get("draft", "")).lower() == "true":
+            continue  # drafts are hidden from the live site until published
         slug = fn[:-3]
         vids.append({
             "slug": slug,
@@ -60,6 +62,7 @@ def load_videos():
             "youtube_id": fm.get("youtube_id", ""),
             "category": fm.get("category", "originals"),
             "thumbnail": fm.get("thumbnail") or f"https://i.ytimg.com/vi/{fm.get('youtube_id','')}/hqdefault.jpg",
+            "description": fm.get("description", ""),
             "body": body,
             "url": f"/video/{slug}/",
         })
@@ -252,7 +255,7 @@ def build_video_posts(videos):
     for i, v in enumerate(videos):
         prev_v = videos[i+1] if i+1 < len(videos) else None   # older
         next_v = videos[i-1] if i > 0 else None                # newer
-        desc = re.sub(r"\s+", " ", v["body"])[:200].strip() or f"{v['title']} — an Akshon Media original."
+        desc = v.get("description", "").strip() or re.sub(r"\s+", " ", v["body"])[:200].strip() or f"{v['title']} — an Akshon Media original."
         body_html = md_body_to_html(v["body"]) or f'<p>{esc(v["title"])} — watch the full video above.</p>'
         yt = v["youtube_id"]
         ld = json.dumps({
