@@ -30,6 +30,11 @@
   .topbar a{color:var(--muted);font-size:13px;text-decoration:none}
   .spin{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:s .7s linear infinite;vertical-align:-2px;margin-right:8px}
   @keyframes s{to{transform:rotate(360deg)}}
+  .prog{display:none;margin-top:22px}
+  .prog .track{height:8px;background:#e7e8e0;border-radius:99px;overflow:hidden}
+  .prog .track > i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left;background:var(--red);border-radius:99px;transition:transform .8s ease}
+  .prog .stage{margin-top:9px;font-size:13.5px;color:var(--muted);display:flex;align-items:center}
+  .prog .stage .spin{width:13px;height:13px;border-color:var(--muted);border-top-color:transparent;margin-right:8px}
 </style>
 </head>
 <body>
@@ -52,6 +57,10 @@
     <div class="hint">Pasting your own script gives the best summary. Otherwise we fetch the transcript automatically.</div>
 
     <button id="go">Generate draft</button>
+    <div id="prog" class="prog">
+      <div class="track"><i id="progFill"></i></div>
+      <div id="progStage" class="stage"><span class="spin"></span><span id="progText">Starting…</span></div>
+    </div>
     <div id="msg" class="msg"></div>
   </div>
 </div>
@@ -84,6 +93,30 @@
     msg.className='msg show'+(isErr?' err':''); msg.innerHTML=html;
   }
 
+  // Staged progress bar (client-side estimate of the server's real steps)
+  var prog=document.getElementById('prog'), progFill=document.getElementById('progFill'), progText=document.getElementById('progText');
+  var progTimers=[];
+  function clearProgress(){ progTimers.forEach(clearTimeout); progTimers=[]; }
+  function startProgress(hasScript){
+    clearProgress();
+    prog.style.display='block';
+    progFill.style.transition='none'; progFill.style.transform='scaleX(0)';
+    void progFill.offsetWidth;                    // reflow so the first step animates
+    progFill.style.transition='transform .8s ease';
+    var stages = hasScript
+      ? [[10,'Reading the video…',150],[45,'Researching keywords…',1500],[80,'Writing the SEO summary…',12000],[90,'Saving the draft…',30000]]
+      : [[8,'Reading the video…',150],[26,'Fetching the transcript…',1500],[46,'Researching keywords…',10000],[78,'Writing the SEO summary…',22000],[90,'Saving the draft…',44000]];
+    stages.forEach(function(s){
+      progTimers.push(setTimeout(function(){ progFill.style.transform='scaleX('+(s[0]/100)+')'; progText.textContent=s[1]; }, s[2]));
+    });
+  }
+  function finishProgress(ok){
+    clearProgress();
+    progFill.style.transform='scaleX(1)';
+    progText.textContent = ok ? 'Done' : 'Stopped';
+    setTimeout(function(){ prog.style.display='none'; }, 700);
+  }
+
   go.onclick=async function(){
     var url=document.getElementById('url').value.trim();
     var script=document.getElementById('script').value;
@@ -91,7 +124,8 @@
     var user = ni.currentUser();
     if(!user){ showGate(); return; }
     go.disabled=true; go.innerHTML='<span class="spin"></span>Generating…';
-    setMsg('Transcribing and writing the summary — this can take up to a minute…', false);
+    msg.className='msg';                          // hide any previous message
+    startProgress(script && script.trim().length > 40);
     try{
       var token = (await user.jwt());
       var res = await fetch('/.netlify/functions/generate-video',{
@@ -100,6 +134,7 @@
         body:JSON.stringify({url:url, script:script})
       });
       var data = await res.json();
+      finishProgress(res.ok);
       if(!res.ok){ setMsg('⚠️ '+(data.error||'Something went wrong.'), true); }
       else{
         var kw = data.primary_keyword ? '<p><strong>Target keyword:</strong> "'+data.primary_keyword+'"'+
@@ -116,7 +151,7 @@
           '<pre>'+(data.preview||'')+'…</pre>', false);
         document.getElementById('url').value=''; document.getElementById('script').value='';
       }
-    }catch(err){ setMsg('⚠️ '+err.message, true); }
+    }catch(err){ finishProgress(false); setMsg('⚠️ '+err.message, true); }
     go.disabled=false; go.textContent='Generate draft';
   };
 })();
