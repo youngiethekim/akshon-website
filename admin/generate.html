@@ -102,7 +102,15 @@
       var data = await res.json();
       if(!res.ok){ setMsg('⚠️ '+(data.error||'Something went wrong.'), true); }
       else{
-        setMsg('<h3>Draft created: '+data.title+'</h3>'+
+        var kw = data.primary_keyword ? '<p><strong>Target keyword:</strong> "'+data.primary_keyword+'"'+
+          (data.keyword_stats ? ' &middot; volume '+data.keyword_stats.volume+' / difficulty '+
+            (data.keyword_stats.difficulty==null?'n/a':data.keyword_stats.difficulty) : '')+
+          (data.grounded ? ' <span style="color:#2e7d32">(validated with live search data)</span>'
+                         : ' <span style="color:#9a7b00">(AI estimate — add DataForSEO for live data)</span>')+'</p>' : '';
+        var sec = (data.secondary_keywords&&data.secondary_keywords.length) ?
+          '<p style="color:#6d7266;font-size:13px">Secondary: '+data.secondary_keywords.join(', ')+'</p>' : '';
+        var notes = data.seo_notes ? '<p style="color:#6d7266;font-size:13px"><em>'+data.seo_notes+'</em></p>' : '';
+        setMsg('<h3>Draft created: '+data.title+'</h3>'+ kw + sec + notes +
           '<p>Saved as a draft. Review and publish it here:</p>'+
           '<p><a href="'+data.editUrl+'">Open in content admin →</a></p>'+
           '<pre>'+(data.preview||'')+'…</pre>', false);

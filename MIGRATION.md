@@ -115,6 +115,18 @@ configuration → Environment variables:
 | `GITHUB_TOKEN` | Lets the tool save the draft post | GitHub → Settings → Developer settings → **Fine-grained token**, repo `akshon-website`, permission **Contents: Read and write**. |
 | `GITHUB_REPO` | `youngiethekim/akshon-website` | — |
 
+**Optional — turns on real keyword targeting (recommended):** add your
+**DataForSEO** credentials and the SEO editor will validate its target keyword
+against live search volume + difficulty and optimize the title/meta/headings/body
+to rank for it. Without these, it still runs a full AI on-page-SEO pass — it just
+picks the target from the model's judgment instead of live data.
+
+| Variable | What it is |
+|---|---|
+| `DATAFORSEO_LOGIN` / `DATAFORSEO_PASSWORD` | Your DataForSEO API credentials (dataforseo.com). ~a few cents per video. |
+| `DATAFORSEO_LOCATION` | Optional numeric location code (default `2840` = United States). |
+| `DATAFORSEO_LANGUAGE` | Optional language code (default `en`). |
+
 Optional: `CLAUDE_MODEL` (defaults to `claude-opus-4-8`; set `claude-haiku-4-5`
 to cut cost ~5×), `GITHUB_BRANCH` (defaults to `main`).
 

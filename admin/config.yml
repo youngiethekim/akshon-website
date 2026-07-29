@@ -30,6 +30,9 @@ collections:
       - { label: "Thumbnail URL", name: "thumbnail", widget: "string", required: false, hint: "Leave blank to auto-use the YouTube thumbnail." }
       - { label: "Draft (hidden from the live site until unchecked)", name: "draft", widget: "boolean", default: false, required: false }
       - { label: "SEO description", name: "description", widget: "string", required: false, hint: "~155-character search-result snippet." }
+      - { label: "Primary keyword", name: "primary_keyword", widget: "string", required: false, hint: "The main search term this post targets." }
+      - { label: "Secondary keywords", name: "secondary_keywords", widget: "list", required: false }
+      - { label: "SEO notes", name: "seo_notes", widget: "text", required: false, hint: "Why this keyword was chosen (from the generator)." }
       - { label: "Tags", name: "tags", widget: "list", required: false }
       - { label: "Article body", name: "body", widget: "markdown", hint: "A few paragraphs of original text — this is what helps the page rank in Google search." }
 
