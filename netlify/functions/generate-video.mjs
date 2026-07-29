@@ -269,6 +269,28 @@ export const handler = async (event, context) => {
   // Safe diagnostic: reports only whether env vars are set + length/format —
   // never their values. GET /.netlify/functions/generate-video?diag=1
   if (event.httpMethod === "GET" && (event.queryStringParameters || {}).diag === "1") {
+    // One-shot GitHub write test: create then delete a temp file at repo root.
+    if ((event.queryStringParameters || {}).test === "github") {
+      const path = ".seo-write-test.txt";
+      const hdr = { authorization: `Bearer ${process.env.GITHUB_TOKEN}`, accept: "application/vnd.github+json", "user-agent": "akshon-write-test", "content-type": "application/json" };
+      const put = await fetch(`https://api.github.com/repos/${process.env.GITHUB_REPO}/contents/${path}`, {
+        method: "PUT", headers: hdr,
+        body: JSON.stringify({ message: "write test", content: Buffer.from("ok").toString("base64"), branch: BRANCH }),
+      });
+      const putText = await put.text();
+      let del = null;
+      if (put.ok) {
+        try {
+          const sha = JSON.parse(putText).content.sha;
+          const d = await fetch(`https://api.github.com/repos/${process.env.GITHUB_REPO}/contents/${path}`, {
+            method: "DELETE", headers: hdr,
+            body: JSON.stringify({ message: "cleanup write test", sha, branch: BRANCH }),
+          });
+          del = d.status;
+        } catch (e) { del = "cleanup-error"; }
+      }
+      return json(200, { write_status: put.status, ok: put.ok, detail: putText.slice(0, 200), cleanup_status: del });
+    }
     const chk = (name) => {
       const v = process.env[name];
       return { set: !!v, length: v ? v.length : 0, hasWhitespaceOrQuotes: v ? (v.trim().length !== v.length || /["']/.test(v)) : false };
