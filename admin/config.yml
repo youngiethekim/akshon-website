@@ -31,6 +31,7 @@ collections:
       - { label: "Draft (hidden from the live site until unchecked)", name: "draft", widget: "boolean", default: false, required: false }
       - { label: "SEO description", name: "description", widget: "string", required: false, hint: "~155-character search-result snippet." }
       - { label: "Primary keyword", name: "primary_keyword", widget: "string", required: false, hint: "The main search term this post targets." }
+      - { label: "On-page SEO score", name: "seo_score", widget: "number", required: false, hint: "0–100, computed by the generator (higher = better on-page optimization)." }
       - { label: "Secondary keywords", name: "secondary_keywords", widget: "list", required: false }
       - { label: "SEO notes", name: "seo_notes", widget: "text", required: false, hint: "Why this keyword was chosen (from the generator)." }
       - { label: "Tags", name: "tags", widget: "list", required: false }

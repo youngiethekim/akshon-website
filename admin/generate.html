@@ -56,6 +56,10 @@
     <textarea id="script" placeholder="Leave blank to auto-transcribe. If a video has no captions, paste your VO script here."></textarea>
     <div class="hint">Pasting your own script gives the best summary. Otherwise we fetch the transcript automatically.</div>
 
+    <label for="kw">Target keyword <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>
+    <input id="kw" type="text" placeholder="e.g. how hytale was saved" autocomplete="off">
+    <div class="hint">The exact phrase you want this post to rank for. Leave blank and we'll pick the best one — validated with real search data if DataForSEO is connected.</div>
+
     <button id="go">Generate draft</button>
     <div id="prog" class="prog">
       <div class="track"><i id="progFill"></i></div>
@@ -131,7 +135,7 @@
       var res = await fetch('/.netlify/functions/generate-video',{
         method:'POST',
         headers:{'content-type':'application/json','authorization':'Bearer '+token},
-        body:JSON.stringify({url:url, script:script})
+        body:JSON.stringify({url:url, script:script, target_keyword:document.getElementById('kw').value})
       });
       var data = await res.json();
       finishProgress(res.ok);
@@ -145,7 +149,14 @@
         var sec = (data.secondary_keywords&&data.secondary_keywords.length) ?
           '<p style="color:#6d7266;font-size:13px">Secondary: '+data.secondary_keywords.join(', ')+'</p>' : '';
         var notes = data.seo_notes ? '<p style="color:#6d7266;font-size:13px"><em>'+data.seo_notes+'</em></p>' : '';
-        setMsg('<h3>Draft created: '+data.title+'</h3>'+ kw + sec + notes +
+        var score = (typeof data.seo_score==='number') ?
+          '<p><strong>On-page SEO score: '+data.seo_score+'/100</strong>'+(data.revised?' <span style="color:#6d7266;font-weight:400">(auto-revised for a higher score)</span>':'')+'</p>' : '';
+        var checks = (data.checks&&data.checks.length) ?
+          '<ul style="margin:4px 0 10px;padding-left:2px;list-style:none;font-size:13px;color:#6d7266">'+
+            data.checks.map(function(c){return '<li>'+(c.pass?'✅':'⚠️')+' '+c.label+'</li>';}).join('')+'</ul>' : '';
+        var comp = data.competitors_analyzed ?
+          '<p style="color:#2e7d32;font-size:13px">Analyzed the live top '+data.competitors_analyzed+' Google results for this keyword and wrote to out-cover them.</p>' : '';
+        setMsg('<h3>Draft created: '+data.title+'</h3>'+ kw + comp + score + checks + sec + notes +
           '<p>Saved as a draft. Review and publish it here:</p>'+
           '<p><a href="'+data.editUrl+'">Open in content admin →</a></p>'+
           '<pre>'+(data.preview||'')+'…</pre>', false);
