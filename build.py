@@ -185,7 +185,7 @@ def build_home(videos):
   <div class="scan" aria-hidden="true"></div>
   <div class="vf" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="hud hud-p1" aria-hidden="true"><span>P1 &middot; Akshon Media</span><span class="hpbar"><i></i></span></div>
-  <div class="hud hud-score" aria-hidden="true"><span class="num" id="score">0</span><span class="lbl">Total views*</span></div>
+  <div class="hud hud-score" aria-hidden="true"><span class="num" id="score">0</span><span class="lbl">Total views</span></div>
   <div class="hud hud-lvl" aria-hidden="true">LVL 10 &middot; Storyteller</div>
   <div class="playhead" aria-hidden="true"></div>
   <div class="banner-in">
@@ -210,7 +210,7 @@ def build_home(videos):
 </div>
 
 <div class="strip"><div class="wrap"><div class="strip-in">{stat}</div>
-<div class="strip-note">* Figures shown are placeholders for review &mdash; final stats to be confirmed.</div></div></div>
+<div class="strip-note">* Some figures are estimates pending confirmation.</div></div></div>
 
 <div class="wrap sec">
   <div class="sec-head"><h2>Brands we've worked with</h2></div>
@@ -328,7 +328,7 @@ def build_work(videos):
   <p style="color:var(--muted);margin-top:12px;max-width:62ch">A gaming media company with an engaged audience and a decade of storytelling &mdash; here's what a partnership looks like.</p>
 </div>
 <div class="strip" style="margin-top:44px"><div class="wrap"><div class="strip-in">{stat}</div>
-<div class="strip-note">* Figures shown are placeholders for review &mdash; final stats to be confirmed.</div></div></div>
+<div class="strip-note">* Some figures are estimates pending confirmation.</div></div></div>
 <div class="wrap sec"><div class="split">
   <div><div class="sec-head" style="margin-bottom:18px"><h2>Who we are</h2></div>
   <p>Akshon Media is a full-service video production company made up of a collective of passionate creators that produces high-quality digital content.</p>
@@ -431,7 +431,7 @@ SITE_LD = '<script type="application/ld+json">' + json.dumps({
 SCORE_JS = """<script>
 (function(){
   var r=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var s=document.getElementById('score'),T=250000000;
+  var s=document.getElementById('score'),T=192772958;
   function f(n){return n.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g,',');}
   if(s){ if(r){s.textContent=f(T)+'+';} else {var t0=null;function step(ts){if(!t0)t0=ts;var p=Math.min((ts-t0)/2600,1);var e=1-Math.pow(1-p,4);s.textContent=f(Math.round(T*e))+(p>=1?'+':'');if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);} }
   var b=document.querySelector('.banner');
