@@ -1,0 +1,76 @@
+name: SEO — optimize all posts
+
+# One-click batch SEO pass over every video post:
+#   - proposes + grounds a target keyword with DataForSEO (volume + difficulty)
+#   - rewrites title / meta / body around it, adds an FAQ + schema, scores on-page SEO
+#   - (optional) discovers missing long-form channel videos and drafts posts for them
+#
+# Run it: GitHub → Actions → "SEO — optimize all posts" → Run workflow.
+# TEST FIRST with limit = 5, then run again with a blank limit for the rest.
+#
+# Repo secrets to set (Settings → Secrets and variables → Actions → New repository secret):
+#   ANTHROPIC_API_KEY                    (required)
+#   DATAFORSEO_LOGIN, DATAFORSEO_PASSWORD  (recommended — real keyword + SERP data)
+#   TRANSCRIPT_API_KEY                   (supadata.ai; optional — else falls back to existing body)
+#   YT_API_KEY                           (optional — enables discovery of missing long-form videos)
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "How many videos to process (blank = all). TRY 5 FIRST."
+        required: false
+        default: "5"
+      force:
+        description: "Re-optimize posts that already have an SEO score? (1 = yes)"
+        required: false
+        default: "0"
+      discover:
+        description: "Discover missing long-form channel videos? (1 = yes, 0 = no)"
+        required: false
+        default: "1"
+      model:
+        description: "Claude model (blank = claude-opus-4-8; use claude-haiku-4-5-20251001 to cut cost)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: seo-optimize-all
+  cancel-in-progress: false
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Optimize posts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DATAFORSEO_LOGIN: ${{ secrets.DATAFORSEO_LOGIN }}
+          DATAFORSEO_PASSWORD: ${{ secrets.DATAFORSEO_PASSWORD }}
+          TRANSCRIPT_API_KEY: ${{ secrets.TRANSCRIPT_API_KEY }}
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+          LIMIT: ${{ github.event.inputs.limit }}
+          FORCE: ${{ github.event.inputs.force }}
+          DISCOVER: ${{ github.event.inputs.discover }}
+          CLAUDE_MODEL: ${{ github.event.inputs.model }}
+        run: node scripts/seo-optimize-all.mjs
+      - name: Commit changes
+        run: |
+          git config user.name "Akshon SEO bot"
+          git config user.email "actions@github.com"
+          if [ -n "$(git status --porcelain content/videos)" ]; then
+            git add content/videos
+            git commit -m "SEO: batch-optimize video posts + draft new long-form"
+            git push
+            echo "Committed SEO updates."
+          else
+            echo "No changes to commit."
+          fi
