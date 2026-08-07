@@ -90,15 +90,22 @@ async function fetchTranscript(id) {
   } catch { return ""; }
 }
 
+let USE_EFFORT = !/haiku/i.test(MODEL); // Haiku doesn't support output_config.effort
 async function claudeJSON({ system, user, schema, effort = "medium", maxTokens = 4000 }) {
-  for (let attempt = 0; attempt < 4; attempt++) {
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const output_config = { format: { type: "json_schema", schema } };
+    if (USE_EFFORT) output_config.effort = effort;
     const r = await fetch(ANTHROPIC_URL, {
       method: "POST",
       headers: { "content-type": "application/json", "x-api-key": process.env.ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01" },
-      body: JSON.stringify({ model: MODEL, max_tokens: maxTokens, output_config: { format: { type: "json_schema", schema }, effort }, system, messages: [{ role: "user", content: user }] }),
+      body: JSON.stringify({ model: MODEL, max_tokens: maxTokens, output_config, system, messages: [{ role: "user", content: user }] }),
     });
     if (r.status === 429 || r.status === 529) { await sleep(2000 * (attempt + 1)); continue; }
-    if (!r.ok) throw new Error(`Claude ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    if (!r.ok) {
+      const t = await r.text();
+      if (r.status === 400 && /effort/i.test(t) && USE_EFFORT) { USE_EFFORT = false; continue; } // retry without effort
+      throw new Error(`Claude ${r.status}: ${t.slice(0, 200)}`);
+    }
     const data = await r.json();
     if (data.stop_reason === "refusal") throw new Error("refusal");
     const block = (data.content || []).find((b) => b.type === "text");
