@@ -35,6 +35,16 @@ collections:
       - { label: "Secondary keywords", name: "secondary_keywords", widget: "list", required: false }
       - { label: "SEO notes", name: "seo_notes", widget: "text", required: false, hint: "Why this keyword was chosen (from the generator)." }
       - { label: "Tags", name: "tags", widget: "list", required: false }
+      - label: "Related videos (optional — leave empty and the site picks them by topic)"
+        name: "related"
+        widget: "relation"
+        required: false
+        collection: "videos"
+        search_fields: ["title"]
+        display_fields: ["title"]
+        value_field: "{{slug}}"
+        multiple: true
+        hint: "Pin up to 4 videos to show in the 'Related videos' block at the bottom of the post."
       - label: "FAQ (shows on the page + adds FAQ rich-result schema for Google)"
         name: "faq"
         widget: "list"
