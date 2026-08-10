@@ -1,48 +1,34 @@
 ---
-title: "Artesian Builds CEO Destroys Company in 10 Seconds"
+title: "Artesian Builds CEO Destroys Company in Seconds"
 date: 2022-03-11
 youtube_id: "vnrZq3nKcaw"
 category: originals
 thumbnail: "https://i.ytimg.com/vi/vnrZq3nKcaw/hqdefault.jpg"
-description: "How Artesian Builds CEO destroyed his company in seconds. Watch the viral story of the CEO who denied an ambassador her prize."
-primary_keyword: "Artesian Builds CEO destroys company"
-secondary_keywords: ["brand ambassador controversy", "custom PC problems", "Noah Katz CEO", "creator partnerships gaming", "business collapse scandal"]
-tags: ["artesian builds", "gaming news", "custom pc", "creator partnerships", "business scandal", "CEO controversy"]
-seo_score: 67
-seo_notes: "Primary keyword appears in title (near front), meta description, first 100 words, and in main subheading. All secondary keywords naturally woven throughout body copy. Content answers implicit PAA questions: What happened? Why did it happen? What went wrong? Body is 520 words, original prose with no transcript dumping. Includes specific examples (Kia Pia, Mischief, Intel Gaming) to establish credibility and rankability. Clear CTA pointing to video at end."
-faq: [{"question":"Why did Artesian Builds CEO Noah Katz deny Kia Pia the giveaway prize?","answer":"Katz claimed Kia Pia's 2,000 Twitch followers fell below his threshold. He also cited her three-month tenure as an ambassador without generating referral clicks, ignoring that she'd just begun the role. This decision sparked viral backlash and exposed the CEO's poor judgment."},{"question":"What were the main issues with Artesian Builds custom PCs?","answer":"Custom PCs shipped with intentionally throttled GPUs (sometimes 10% reduction) to address overheating. Popular builds like the Sphere PC constantly crashed and were overpriced relative to performance. Multiple customers reported serious underperformance and quality issues."},{"question":"How did brand ambassadors get treated by Artesian Builds?","answer":"The company denied ambassadors promised merchandise like mousepads and t-shirts based on referral metrics. Staff infiltrated smaller streamers' chats offering exploitative deals—requiring payment for intrusive logo placement. This pattern showed systemic mistreatment of creators."},{"question":"What happened to Artesian Builds after the CEO controversy went viral?","answer":"Major partners like Intel Gaming distanced themselves. Within days, the company suspended all operations and laid off its entire workforce without warning. CEO Noah Katz issued an apology that was later deleted, and the company privately offered Kia Pia a PC, which she declined."},{"question":"Did Artesian Builds have legal issues beyond the controversy?","answer":"Yes. The company's business license was suspended due to tax evasion, revealing deeper operational and financial misconduct beyond the public scandal. This indicated systemic problems with how the company was run."},{"question":"How did Kia Pia's situation change after the controversy?","answer":"Community support helped her gain over 20,000 new followers within a week. She became an affiliate for Cooler Master, turning the negative experience into a positive outcome that benefited her streaming career long-term."}]
+description: "How the Artesian Builds CEO destroyed his company in 10 seconds by denying a streamer her prize. Watch the full breakdown of the scandal on Akshon Media."
+primary_keyword: "Artesian Builds CEO"
+secondary_keywords: ["Artesian Builds scandal", "Noah Katz", "Kia Pia giveaway", "custom PC company collapse", "brand ambassador mistreatment", "GPU throttling"]
+tags: ["Artesian Builds", "Noah Katz", "gaming industry", "Twitch", "custom PC", "creator drama"]
+seo_score: 89
+seo_notes: "Primary keyword 'Artesian Builds CEO' placed in title (front), meta, first 100 words, and an H2 context. Title 46 chars, meta ~156 chars. Secondary keywords used naturally. FAQ targets likely PAA queries about the scandal, Kia Pia, and whether the company is still operating."
+faq: [{"question":"What did the Artesian Builds CEO do?","answer":"CEO Noah Katz removed Twitch streamer Kia Pia from a giveaway she had won, claiming her roughly 2,000 followers were too small and citing poor referral performance from her three-month stint as a brand ambassador. He criticized her on stream, and the viral clip sparked a wave of backlash that quickly exposed deeper company problems."},{"question":"Why did Artesian Builds shut down?","answer":"After the giveaway controversy went viral, partnerships collapsed and public trust evaporated. Reports surfaced of mistreated ambassadors, throttled GPUs, a toxic workplace, unpaid employees, and a suspended business license over tax issues. Within days, Artesian Builds suspended operations and laid off its entire workforce."},{"question":"Who is Kia Pia?","answer":"Kia Pia is the Twitch streamer who won a custom PC through Artesian Builds' monthly giveaway before CEO Noah Katz personally removed her from it on stream. Her public treatment became the catalyst that exposed the company's wider issues. She was later offered a replacement PC privately, which she declined."},{"question":"Were Artesian Builds PCs actually bad?","answer":"Many customers reported serious quality problems. The company was accused of shipping custom PCs with intentionally throttled GPUs—sometimes around 90% performance—to manage overheating. Streamer Mischief's high-profile 'Sphere' build reportedly crashed constantly, and she publicly called it garbage. Multiple buyers described overpriced rigs that underperformed expectations."},{"question":"Did Intel respond to the Artesian Builds scandal?","answer":"Yes. Intel Gaming issued a public statement distancing itself from Artesian Builds and affirming that it welcomes streamers and creators of all sizes. The partnership fallout was one of several rapid consequences that followed the viral controversy and accelerated the company's collapse."}]
 ---
 
-# Artesian Builds CEO Destroys Company in 10 Seconds
-
-Artesian Builds CEO Noah Katz destroyed his custom PC company in a single moment of poor judgment that went viral. What started as a decision to deny a brand ambassador her promised giveaway prize spiraled into a complete company collapse. This cautionary tale reveals how one CEO's actions can unravel years of business growth in seconds—and what it means for creator partnerships in gaming.
+The Artesian Builds CEO destroyed his own company in roughly 10 seconds, and the fallout became one of gaming's most talked-about business collapses. What began as CEO Noah Katz denying Twitch streamer Kia Pia a giveaway PC she'd rightfully won spiraled into a full company shutdown. This is a cautionary tale about creator partnerships, product quality, and how a single moment of bad judgment can unravel years of growth. Below we break down exactly what happened and why it mattered.
 
 ## The 10-Second Moment That Changed Everything
 
-Twitch streamer Kia Pia won a free PC through Artesian Builds' monthly giveaway program. Her excitement quickly turned to shock when CEO Noah Katz personally intervened to remove her from the giveaway. His justification? Her 2,000 Twitch followers fell "below his threshold." Katz publicly criticized her viewership on stream, sparking immediate backlash. He later cited her three-month tenure as an ambassador and "not a single click" in referral performance—ignoring that she'd only just started the role.
-
-This single decision became the catalyst that exposed systemic problems within the organization.
+Kia Pia won a free custom PC through Artesian Builds' monthly giveaway. Her excitement turned to shock when Noah Katz personally removed her from the giveaway on stream, saying her 2,000 Twitch followers fell "below his threshold." He criticized her viewership publicly and pointed to "not a single click" in referrals—ignoring she'd only been an ambassador for three months. The clip went viral within hours, and the backlash never stopped.
 
 ## A Pattern of Mistreating Brand Ambassadors
 
-Kia Pia's experience wasn't unique. Past ambassadors came forward revealing they'd been denied promised merchandise—mousepad, t-shirts, and basic promotional items—based on referral metrics. Worse, company staff had infiltrated smaller streamers' communities, offering exploitative deals: pay for intrusive logo placement on their channels for six months with minimal compensation.
+Kia Pia wasn't alone. Former Artesian Builds brand ambassadors came forward describing denied merch and promised items withheld over referral metrics. Some reported staff pitching exploitative deals—paying for intrusive logo placement with little compensation. The picture that emerged was of a company treating creators as assets to squeeze rather than partners to support.
 
-This pattern showed a company that viewed creators not as partners but as marketing assets to extract value from with little regard for fairness.
+## Custom PC Quality Issues and GPU Throttling
 
-## Custom PC Quality Issues and Throttling
+Product complaints piled up alongside the ambassador drama. Customers said Artesian Builds shipped custom PCs with intentionally throttled GPUs—sometimes cut to 90% performance—to fight overheating. Streamer Mischief's flashy "Sphere" build reportedly crashed constantly, and she called it "clearly garbage." Multiple buyers echoed the same: overpriced rigs that badly underperformed.
 
-Beyond ambassador controversies, Artesian Builds faced serious product complaints. The company shipped custom PCs with intentionally throttled GPUs—sometimes reduced to 90% performance—to combat overheating problems. Popular streamer Mischief received a custom "Sphere" PC that looked impressive but constantly crashed. She publicly denounced it, saying, "It was clearly garbage. There was just nothing right with it."
+## Internal Toxicity and the Swift Downfall
 
-These weren't isolated incidents. Multiple customers reported overpriced builds that dramatically underperformed expectations.
+Former employees, speaking through creator Christopher Yee, described a toxic workplace, missed paychecks, and financial struggles. The company's business license was also suspended over tax issues. Once the controversy went viral, partnerships evaporated—Intel Gaming publicly distanced itself and affirmed it welcomes streamers of all sizes. Within days, Artesian Builds suspended operations and laid off its entire workforce without warning. Katz posted an apology that was later deleted. Kia Pia was privately offered a replacement PC, which she declined.
 
-## Internal Toxicity and Shady Business Practices
-
-Former employees, sharing their stories through content creator Christopher Yee, described a toxic workplace under Katz's leadership. Staff members reported being denied proper compensation and struggling financially while fighting for paychecks. Beyond internal chaos, Artesian Builds' business license was suspended due to tax evasion—signaling deeper operational misconduct.
-
-## The Swift Downfall
-
-After the viral controversy, partnerships collapsed instantly. Intel Gaming released a statement distancing itself from the company, affirming they welcome streamers of all sizes. Within days, Artesian Builds suspended operations and laid off its entire workforce without warning—despite recently suggesting an employee-led buyout might happen.
-
-Katz issued an apology that was later deleted. The company privately offered Kia Pia a replacement PC, which she declined. The damage was irreversible.
-
-This collapse demonstrates how poor leadership, systemic creator mistreatment, and product quality failures can destroy a company in moments. Watch the full video for a deep dive into the Artesian Builds scandal and what it reveals about accountability in the gaming industry.
+The Artesian Builds collapse shows how leadership, creator respect, and product integrity all matter—and how fast they can crumble. Watch the full video on Akshon Media for the complete deep dive into the scandal and what it reveals about accountability in the gaming industry.
