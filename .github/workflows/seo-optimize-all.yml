@@ -25,6 +25,10 @@ on:
         description: "Re-optimize posts that already have an SEO score? (1 = yes)"
         required: false
         default: "0"
+      reopt_below:
+        description: "Re-optimize only existing posts scoring BELOW this (e.g. 80). 0 = off."
+        required: false
+        default: "0"
       discover:
         description: "Discover missing long-form channel videos? (1 = yes, 0 = no)"
         required: false
@@ -59,6 +63,7 @@ jobs:
           YT_API_KEY: ${{ secrets.YT_API_KEY }}
           LIMIT: ${{ github.event.inputs.limit }}
           FORCE: ${{ github.event.inputs.force }}
+          REOPT_BELOW: ${{ github.event.inputs.reopt_below }}
           DISCOVER: ${{ github.event.inputs.discover }}
           CLAUDE_MODEL: ${{ github.event.inputs.model }}
         run: node scripts/seo-optimize-all.mjs

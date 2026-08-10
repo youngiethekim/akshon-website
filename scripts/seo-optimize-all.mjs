@@ -44,6 +44,7 @@ const MIN_DURATION = Number(process.env.MIN_DURATION || 180);
 const LIMIT = process.env.LIMIT ? Number(process.env.LIMIT) : Infinity;
 const CONCURRENCY = Number(process.env.CONCURRENCY || 3);
 const FORCE = process.env.FORCE === "1" || process.env.FORCE === "true";
+const REOPT_BELOW = process.env.REOPT_BELOW ? Number(process.env.REOPT_BELOW) : 0; // re-optimize existing posts scoring below this
 const DISCOVER = process.env.DISCOVER !== "0";
 const YT_CHANNEL = process.env.YT_CHANNEL || "@Akshonmedia";
 const SCORE_PASS = 80;
@@ -318,8 +319,10 @@ async function main() {
     if (!parts) continue;
     const id = field(parts.front, "youtube_id");
     if (id) existingById[id] = f;
-    const already = /^seo_score:/m.test(parts.front);
-    if (already && !FORCE) continue;
+    const scoreM = /^seo_score:\s*(\d+)/m.exec(parts.front);
+    const already = !!scoreM;
+    const belowFloor = scoreM && REOPT_BELOW > 0 && Number(scoreM[1]) < REOPT_BELOW;
+    if (already && !FORCE && !belowFloor) continue;
     worklist.push({
       kind: "existing", file: f, id,
       title: field(parts.front, "title") || f.replace(/\.md$/, ""),
