@@ -176,8 +176,8 @@ def build_home(videos):
     cards = "".join(vcard(v) for v in latest)
     s = SITE["stats_home"]
     stat = "".join(f'<div class="stat"><div class="n">{x["n"]}</div><div class="l">{x["l"]}</div></div>' for x in s)
-    html_out = head("Akshon Media — Esports Documentaries & Original Series",
-        "Akshon Media is a collective of passionate creators telling the stories that move gamers — documentaries, esports coverage, and original series from inside the game.",
+    html_out = head("Akshon Media — YouTube & Gaming Video Production, Vancouver",
+        "YouTube specialists and gaming video production in Vancouver. 371K subscribers and official-partner production for the Overwatch League since 2019.",
         "/", extra=SITE_LD)
     html_out += f"""
 <div class="banner">
@@ -191,7 +191,7 @@ def build_home(videos):
   <div class="banner-in">
     <div class="tag">Stories that shape gaming</div>
     <div class="word glitch" data-text="Akshon Media">Akshon <span class="md">Media</span></div>
-    <div class="sub">Esports documentaries &amp; original series</div>
+    <h1 class="sub">Esports documentaries &amp; original series</h1>
     <a class="pstart" href="/videos/">&#9654;&nbsp; Press start</a>
   </div>
 </div>
@@ -199,7 +199,7 @@ def build_home(videos):
 <div class="wrap sec">
   <div class="mission rv">
     <span class="eyebrow">An eye for the game</span>
-    <h2 style="margin-top:14px">Akshon Media is a collective of passionate creators telling the stories that move gamers &mdash; documentaries, esports coverage, and original series from inside the game.</h2>
+    <h2 style="margin-top:14px">Akshon Media is a YouTube specialist and gaming video production studio in Vancouver. We grew our own 371K-subscriber channel and produce content for the Overwatch League, Call of Duty League, and leading brands &mdash; script to screen.</h2>
     <p>Working closely with a breadth of brands, agencies, and companies, we have a proven track record of producing captivating video content that engages, educates, and drives results.</p>
   </div>
 </div>
