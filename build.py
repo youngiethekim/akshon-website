@@ -75,6 +75,7 @@ def load_videos():
             "category": fm.get("category", "originals"),
             "thumbnail": fm.get("thumbnail") or f"https://i.ytimg.com/vi/{fm.get('youtube_id','')}/hqdefault.jpg",
             "description": fm.get("description", ""),
+            "short_answer": (fm.get("short_answer") or "").strip(),
             "faq": [q for q in (fm.get("faq") or []) if isinstance(q, dict) and q.get("question") and q.get("answer")],
             "body": body,
             "url": f"/video/{slug}/",
@@ -282,7 +283,13 @@ def build_video_posts(videos):
             "publisher": {"@type": "Organization", "name": "Akshon Media",
                           "logo": {"@type": "ImageObject", "url": SITE_URL + "/assets/img/logo-white.png"}}
         }, ensure_ascii=False)
-        extra = f'<script type="application/ld+json">{ld}</script>'
+        crumb_ld = json.dumps({
+            "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+                {"@type": "ListItem", "position": 2, "name": "Videos", "item": SITE_URL + "/videos/"},
+                {"@type": "ListItem", "position": 3, "name": v["title"], "item": SITE_URL + v["url"]}]},
+            ensure_ascii=False)
+        extra = f'<script type="application/ld+json">{ld}</script><script type="application/ld+json">{crumb_ld}</script>'
         # FAQ section + FAQPage schema (question-targeting for Google)
         faq_html = ""
         if v["faq"]:
@@ -301,6 +308,15 @@ def build_video_posts(videos):
         if next_v: pn += f'<a href="{next_v["url"]}">&larr; Newer</a>'
         if prev_v: pn += f'<a class="next" href="{prev_v["url"]}">Older &rarr;</a>'
         pn += "</div>"
+        rel = [x for x in videos if x["category"] == v["category"] and x["slug"] != v["slug"]][:3]
+        if len(rel) < 3:
+            rel += [x for x in videos if x["slug"] != v["slug"] and x not in rel][:3 - len(rel)]
+        related_html = ('<section style="margin-top:40px"><div class="sec-head"><h2>Related videos</h2></div>'
+                        '<div class="vgrid">' + "".join(vcard(x) for x in rel) + "</div></section>") if rel else ""
+        service_html = ('<p style="margin-top:28px;color:var(--muted)">Producing videos like this is what we do &mdash; '
+                        '<a href="/services/youtube-channel-production/">YouTube channel production &amp; management &rarr;</a></p>')
+        sa_html = (f'<div style="font-size:1.1em;line-height:1.65;border-left:3px solid var(--red);padding:8px 0 8px 18px;margin:0 0 24px">'
+                   f'<strong>Short answer:</strong> {esc(v["short_answer"])}</div>') if v["short_answer"] else ""
         html_out += f"""
 <article class="post">
   <a class="crumb" href="/videos/">&larr; All videos</a>
@@ -308,8 +324,11 @@ def build_video_posts(videos):
   <div class="meta"><span class="cat">{cat_label(v['category'])}</span><span>&middot;</span><span>{fmt_date(v['date'])}</span><span>&middot;</span><span>By Akshon Media</span></div>
   <div class="embed"><iframe src="https://www.youtube-nocookie.com/embed/{yt}" title="{esc(v['title'])}" loading="lazy" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen></iframe></div>
   <div class="watch-yt"><span class="s">Watch and subscribe on YouTube to support the channel.</span><a href="https://www.youtube.com/watch?v={yt}" rel="noopener" target="_blank">Watch on YouTube &rarr;</a></div>
+  {sa_html}
   <div class="body">{body_html}</div>
   {faq_html}
+  {service_html}
+  {related_html}
   {pn}
 </article>
 """
