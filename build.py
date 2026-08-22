@@ -113,6 +113,7 @@ def head(title, desc, path, og_image=None, extra=""):
 """
 
 NAV = [("/", "Home", "home"), ("/videos/", "Videos", "videos"),
+       ("/services/youtube-channel-production/", "YouTube", "services"),
        ("/work-with-us/", "Work With Us", "work"), ("/about/", "About", "about"),
        ("/contact/", "Contact", "contact")]
 def nav(path):
@@ -137,8 +138,8 @@ def footer():
 <div class="ft">
   <div><div class="logo"><img src="/assets/img/logo-white.png" alt="Akshon Media"></div>
     <p class="about">Telling the stories that move gamers. Documentaries, esports coverage, and original content from inside the gaming world.</p></div>
-  <div><h4>Explore</h4><ul>
-    <li><a href="/videos/">Videos</a></li><li><a href="/work-with-us/">Work With Us</a></li><li><a href="/about/">About</a></li></ul></div>
+  <div><h4>Services</h4><ul>
+    <li><a href="/services/youtube-channel-production/">YouTube Channel Production</a></li><li><a href="/work-with-us/">Work With Us</a></li><li><a href="/videos/">Videos</a></li></ul></div>
   <div><h4>Company</h4><ul>
     <li><a href="/about/">About Us</a></li><li><a href="/contact/">Contact</a></li><li><a href="/press/">Press</a></li></ul></div>
   <div><h4>Follow</h4><ul>
@@ -210,7 +211,7 @@ def build_home(videos):
 </div>
 
 <div class="strip"><div class="wrap"><div class="strip-in">{stat}</div>
-<div class="strip-note">* Some figures are estimates pending confirmation.</div></div></div>
+<div class="strip-note">Channel figures per YouTube, August 2026; audience and games covered per akshonmedia.com.</div></div></div>
 
 <div class="wrap sec">
   <div class="sec-head"><h2>Brands we've worked with</h2></div>
@@ -328,7 +329,7 @@ def build_work(videos):
   <p style="color:var(--muted);margin-top:12px;max-width:62ch">A gaming media company with an engaged audience and a decade of storytelling &mdash; here's what a partnership looks like.</p>
 </div>
 <div class="strip" style="margin-top:44px"><div class="wrap"><div class="strip-in">{stat}</div>
-<div class="strip-note">* Some figures are estimates pending confirmation.</div></div></div>
+<div class="strip-note">Channel figures per YouTube, August 2026; audience and games covered per akshonmedia.com.</div></div></div>
 <div class="wrap sec"><div class="split">
   <div><div class="sec-head" style="margin-bottom:18px"><h2>Who we are</h2></div>
   <p>Akshon Media is a full-service video production company made up of a collective of passionate creators that produces high-quality digital content.</p>
@@ -415,8 +416,104 @@ def build_press(videos):
 """
     write("press/index.html", html_out + footer())
 
+def build_service_youtube():
+    url = "/services/youtube-channel-production/"
+    # FAQ authored in plain text so the visible copy and the FAQPage schema match exactly.
+    faqs = [
+        ("Do you manage YouTube channels for other companies?",
+         "Yes. YouTube channel management is a core service. We handle strategy, publishing cadence, packaging (titles, thumbnails, descriptions), community, and analytics so your channel grows without you running it day to day. We do the same work on our own channels, which is how we grew one to 371,000 subscribers."),
+        ("Can you help rank our YouTube videos in search?",
+         "Ranking YouTube videos is what we do every day. As a YouTube SEO agency we research the terms your audience actually searches, structure titles, descriptions, chapters and metadata around them, and build supporting blog pages that reinforce each video, the same system that ranks our own catalogue."),
+        ("Do you offer script writing?",
+         "Yes. Our YouTube script writers develop the hook, structure and narration built for retention, not just information. Script writing services can be booked on their own or as part of end-to-end production."),
+        ("Do you only work with gaming brands?",
+         "Gaming is our specialty and our proof, but not our limit. We are a full-service video production company in Vancouver and have produced work for non-gaming clients as well. If your audience is on YouTube, we can help."),
+        ("Where is Akshon Media based?",
+         "We are a video production company in Vancouver, BC, at 801 to 838 W Hastings St. We work with clients remotely across North America and on location for shoots."),
+        ("What makes Akshon different from a typical YouTube agency?",
+         "Most agencies sell YouTube strategy without having grown a channel themselves. We built our own community to 371,000 subscribers across five channels and produce official content for the Overwatch League and the Call of Duty League, so the advice comes from operators, not theory."),
+    ]
+    faq_html = "".join(f"<details><summary>{esc(q)}</summary><div>{esc(a)}</div></details>" for q, a in faqs)
+    offers = [
+        ("Manage", "YouTube channel management", "End-to-end YouTube channel management: publishing cadence, thumbnails and titles, community, and monthly reporting, so the channel keeps moving whether or not you have an in-house team."),
+        ("Grow", "YouTube strategy &amp; growth", "A YouTube strategy grounded in what actually moves the algorithm, not vanity metrics. We map the content that will grow your YouTube channel and build the audience that compounds over time."),
+        ("Rank", "YouTube SEO &amp; ranking", "As a YouTube SEO agency we research real search demand and structure every upload to rank YouTube videos, then reinforce them with on-site blog pages that win Google and AI answers."),
+        ("Write", "Script writing", "YouTube script writers who craft the hook, the structure and the narration for retention. Script writing services are available on their own or inside a full production."),
+        ("Produce", "End-to-end production", "Full service video production from concept to final cut: a YouTube production company and gaming video production team handling shoot, edit, motion design and delivery."),
+        ("Advise", "Consulting &amp; audits", "Work with a YouTube consultant on a channel audit, a growth plan, or team training. Practical direction from people who run channels at scale, not a generic playbook."),
+    ]
+    offers_html = "".join(f'<div class="ocard"><span class="k">{k}</span><h3>{h}</h3><p>{p}</p></div>' for k, h, p in offers)
+    stats = [("371K", "Subscribers"), ("192M+", "Views across our channels"), ("5", "YouTube channels"), ("2019", "Overwatch League partner since")]
+    stat_html = "".join(f'<div class="stat"><div class="n">{n}</div><div class="l">{l}</div></div>' for n, l in stats)
+
+    ld = [
+        {"@context": "https://schema.org", "@type": "Service",
+         "name": "YouTube Channel Production & Management",
+         "serviceType": ["YouTube channel management", "YouTube SEO", "Video production", "Script writing", "YouTube consulting"],
+         "provider": {"@type": "Organization", "name": "Akshon Media", "url": SITE_URL},
+         "areaServed": ["Vancouver", "British Columbia", "Canada", "United States"],
+         "url": SITE_URL + url},
+        {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL + "/"},
+            {"@type": "ListItem", "position": 2, "name": "YouTube Channel Production", "item": SITE_URL + url}]},
+        {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faqs]},
+    ]
+    extra = "".join('<script type="application/ld+json">' + json.dumps(x) + "</script>" for x in ld)
+
+    html_out = head("YouTube Channel Production & Management, Vancouver — Akshon Media",
+        "YouTube agency in Vancouver that grew its own channel to 371K subscribers. YouTube channel management, SEO, script writing, and full-service video production.",
+        url, extra=extra)
+    html_out += f"""
+<div class="wrap" style="padding-top:64px">
+  <span class="eyebrow">YouTube specialists</span>
+  <h1 style="font-family:var(--disp);font-weight:600;font-size:clamp(32px,5vw,50px);letter-spacing:.03em;text-transform:uppercase;margin-top:10px">YouTube channel production &amp; management</h1>
+  <p style="color:var(--muted);margin-top:14px;max-width:64ch">Akshon Media is a YouTube agency and full-service video production company in Vancouver. We do not just advise on YouTube &mdash; we run it, growing our own gaming community to 371,000 subscribers while producing official content for the Overwatch League and the Call of Duty League.</p>
+  <div style="margin-top:26px"><a class="btn btn-red" href="/contact/">Book a consultation &rarr;</a></div>
+</div>
+
+<div class="strip" style="margin-top:44px"><div class="wrap"><div class="strip-in">{stat_html}</div>
+<div class="strip-note">Channel figures per YouTube, August 2026.</div></div></div>
+
+<div class="wrap sec"><div class="split">
+  <div><div class="sec-head" style="margin-bottom:18px"><h2>A YouTube agency that grew its own audience</h2></div>
+  <p>Most agencies sell YouTube strategy without ever having grown a channel. We are the opposite. Over the past decade Akshon built a gaming YouTube community to 371,000 subscribers and more than 192 million views across our channels, and we did it while producing official content for the Overwatch League since 2019 and the Call of Duty League.</p>
+  <p>That operator experience is what you hire. Whether you need YouTube channel management, a plan to grow your YouTube channel, or a YouTube consultant to audit what you already have, the advice comes from people who publish and rank videos every week &mdash; not from a template.</p></div>
+  <img src="/assets/img/hero-about.jpg" alt="Akshon crew filming an esports production" loading="lazy"></div></div>
+
+<div class="wrap sec" style="padding-top:0"><div class="sec-head"><h2>What we do</h2></div><div class="offer">{offers_html}</div></div>
+
+<div class="wrap sec" style="padding-top:0"><div class="split">
+  <div><div class="sec-head" style="margin-bottom:18px"><h2>YouTube SEO that compounds</h2></div>
+  <p>Views should not disappear the week after you publish. As a YouTube SEO agency we research what your audience searches for, then structure each upload &mdash; title, description, chapters, metadata &mdash; to rank YouTube videos over the long term. We reinforce every video with an on-site blog page, so the same story earns traffic from Google and from AI answer engines too.</p>
+  <p>It is the exact system running on this site: a searchable page for every video that turns a one-time view into a durable, rankable asset. A YouTube marketing agency that only chases the algorithm leaves that compounding value on the table.</p></div>
+  <img src="/assets/img/hero-cta.jpg" alt="Akshon editor grading footage in the studio" loading="lazy"></div></div>
+
+<div class="wrap sec" style="padding-top:0"><div class="sec-head"><h2>From script to screen</h2></div>
+  <p style="max-width:70ch">A channel is only as good as the videos on it. Our YouTube script writers shape the hook and the structure that hold attention, and our full service video production team takes it from there &mdash; a YouTube production company handling shoot, edit, motion design, and delivery. As a gaming video production studio we know the games, the players, and the culture, which is why our storytelling lands with the audiences brands most want to reach.</p></div>
+
+<div class="wrap sec" style="padding-top:0"><div class="split">
+  <div><div class="sec-head" style="margin-bottom:18px"><h2>A video production company in Vancouver</h2></div>
+  <p>We are a video production company in Vancouver, BC, working with clients across North America. If you have searched for a production company in Vancouver, a videographer in Vancouver, or a partner who understands YouTube as a platform rather than just a place to upload, that is exactly what Akshon does.</p>
+  <p>Gaming is our specialty and our proof, but the craft travels. We have produced work for endemic and non-endemic brands alike, from the Overwatch League and Call of Duty League to Evil Geniuses, Red Bull, and beyond.</p>
+  <div style="margin-top:22px">
+    <div class="ct-line"><span class="k">Studio</span><span class="v">801&ndash;838 W Hastings St, Vancouver, BC</span></div>
+    <div class="ct-line"><span class="k">Email</span><span class="v">hello@akshonmedia.com</span></div>
+  </div></div>
+  <img src="/assets/img/hero-main.jpg" alt="Akshon Media studio in Vancouver" loading="lazy"></div></div>
+
+<div class="wrap sec" style="padding-top:0"><div class="sec-head"><h2>Frequently asked questions</h2></div>
+  <div class="faq">{faq_html}</div></div>
+
+<div class="teaser"><div class="teaser-bg"></div><div class="wrap teaser-in">
+  <div><h2>Ready to grow on YouTube?</h2><p>Tell us about your channel and goals &mdash; we will come back with a plan.</p></div>
+  <a class="btn btn-red" href="/contact/">Book a consultation &rarr;</a>
+</div></div>
+"""
+    write("services/youtube-channel-production/index.html", html_out + footer())
+
 def build_sitemap(videos):
-    urls = ["/", "/videos/", "/work-with-us/", "/about/", "/contact/", "/press/"] + [v["url"] for v in videos]
+    urls = ["/", "/videos/", "/services/youtube-channel-production/", "/work-with-us/", "/about/", "/contact/", "/press/"] + [v["url"] for v in videos]
     items = "".join(f"<url><loc>{SITE_URL}{u}</loc></url>\n" for u in urls)
     xml = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{items}</urlset>\n'
     write("sitemap.xml", xml)
@@ -449,6 +546,7 @@ def main():
     build_videos_index(videos)
     build_video_posts(videos)
     build_work(videos)
+    build_service_youtube()
     build_about()
     build_contact()
     build_press(videos)
