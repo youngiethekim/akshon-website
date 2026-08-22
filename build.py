@@ -154,6 +154,7 @@ def footer():
 </div></footer>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>if(window.netlifyIdentity){window.netlifyIdentity.on("init",function(u){if(!u){window.netlifyIdentity.on("login",function(){document.location.href="/admin/";});}});}</script>
+<script>(function(){try{var p=location.pathname+location.search;document.querySelectorAll('input[name="source_page"]').forEach(function(el){el.value=p;});document.querySelectorAll('input[name="referrer"]').forEach(function(el){el.value=document.referrer||"direct";});}catch(e){}})();</script>
 </body></html>"""
 
 def vcard(v):
@@ -352,6 +353,9 @@ def build_work(videos):
     <div><label for="w-type">I'm interested in</label>
       <select id="w-type" name="interest"><option>Sponsored integration</option><option>Branded content</option><option>Production services</option><option>Other</option></select></div>
     <div><label for="w-msg">About your brand</label><textarea id="w-msg" name="message" rows="4"></textarea></div>
+    <div><label for="w-budget">Budget range</label><select id="w-budget" name="budget"><option value="">Select&hellip;</option><option>Under $5k</option><option>$5k&ndash;$15k</option><option>$15k&ndash;$50k</option><option>$50k+</option><option>Not sure yet</option></select></div>
+    <div><label for="w-heard">How did you hear about us?</label><select id="w-heard" name="how_heard"><option value="">Select&hellip;</option><option>Google search</option><option>YouTube</option><option>Referral</option><option>Social media</option><option>Other</option></select></div>
+    <input type="hidden" name="source_page" value=""><input type="hidden" name="referrer" value="">
     <button class="btn btn-dark" type="submit">Send message &rarr;</button>
   </form>
 </div></div>
@@ -399,6 +403,9 @@ def build_contact():
     <div><label for="c-name">Name</label><input id="c-name" name="name" type="text" required></div>
     <div><label for="c-email">Email</label><input id="c-email" name="email" type="email" required></div>
     <div><label for="c-msg">Tell us about it</label><textarea id="c-msg" name="message" rows="5"></textarea></div>
+    <div><label for="c-budget">Budget range</label><select id="c-budget" name="budget"><option value="">Select&hellip;</option><option>Under $5k</option><option>$5k&ndash;$15k</option><option>$15k&ndash;$50k</option><option>$50k+</option><option>Not sure yet</option></select></div>
+    <div><label for="c-heard">How did you hear about us?</label><select id="c-heard" name="how_heard"><option value="">Select&hellip;</option><option>Google search</option><option>YouTube</option><option>Referral</option><option>Social media</option><option>Other</option></select></div>
+    <input type="hidden" name="source_page" value=""><input type="hidden" name="referrer" value="">
     <button class="btn btn-dark" type="submit">Send message &rarr;</button>
   </form>
 </div></div>
