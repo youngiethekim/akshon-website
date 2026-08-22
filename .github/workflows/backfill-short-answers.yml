@@ -1,0 +1,57 @@
+name: Backfill short answers
+
+# One-click: add a 40–60 word "Short answer" block to each video post (AI-Overview target).
+# Actions tab → "Backfill short answers" → Run workflow. Cheap Haiku pass; try limit 5 first.
+# Needs repo secret: ANTHROPIC_API_KEY
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "How many posts to process (blank = all). Try 5 first."
+        required: false
+        default: "5"
+      force:
+        description: "Regenerate posts that already have a short answer? (1 = yes)"
+        required: false
+        default: "0"
+      model:
+        description: "Claude model (blank = claude-haiku-4-5-20251001)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: backfill-short-answers
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Generate short answers
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LIMIT: ${{ github.event.inputs.limit }}
+          FORCE: ${{ github.event.inputs.force }}
+          CLAUDE_MODEL: ${{ github.event.inputs.model }}
+        run: node scripts/backfill-short-answers.mjs
+      - name: Commit changes
+        run: |
+          git config user.name "Akshon SEO bot"
+          git config user.email "actions@github.com"
+          if [ -n "$(git status --porcelain content/videos)" ]; then
+            git add content/videos
+            git commit -m "Backfill short-answer blocks on video posts"
+            git push
+            echo "Committed short answers."
+          else
+            echo "No changes to commit."
+          fi
